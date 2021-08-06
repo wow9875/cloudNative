@@ -1,0 +1,35 @@
+apiVersion: skaffold/v2alpha3
+kind: Config
+# 쿠버네티스 배포 설정
+deploy:
+  kubectl:
+    manifests:
+      - ./xinfra/kubernetes/*
+# 도커 이미지 빌드 관련 설정
+build:
+  # local:
+  #   push: false
+  googleCloudBuild:
+    projectId: dhkim-int-201019
+  artifacts:
+    - image: robstyle/getmem
+      context: getmem
+      docker:
+        dockerfile: Dockerfile
+    - image: robstyle/nodecheck
+      context: nodecheck
+      docker:
+        dockerfile: Dockerfile
+    - image: robstyle/sayservice
+      context: sayservice
+      docker:
+        dockerfile: Dockerfile
+    - image: robstyle/frontend
+      context: frontend
+      docker:
+        dockerfile: Dockerfile
+# 소스 싱크 관련 설정
+      sync:
+        manual:
+          - src: 'src/**/*.ts'
+            dest: .
