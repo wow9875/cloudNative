@@ -1,14 +1,15 @@
-apiVersion: skaffold/v2alpha3
+apiVersion: skaffold/v2beta10
 kind: Config
 # 쿠버네티스 배포 설정
 deploy:
   kubectl:
     manifests:
       - ./xinfra/kubernetes/*
+    defaultNamespace: devel
 # 도커 이미지 빌드 관련 설정
 build:
-  # local:
-  #   push: false
+   local:
+     push: true
   googleCloudBuild:
     projectId: dhkim-int-201019
   artifacts:
